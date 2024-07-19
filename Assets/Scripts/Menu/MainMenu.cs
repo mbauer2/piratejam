@@ -57,25 +57,11 @@ public class MainMenu : MonoBehaviour
             levelButton.onClick.AddListener( delegate { LoadScene(scene); } ) ;
             levelButton.GetComponentInChildren<TextMeshProUGUI>().text = scene;
         }
-
     }
 
-    public async void LoadScene( string sceneName )
+    public void LoadScene( string sceneName )
     {
-        var scene = SceneManager.LoadSceneAsync(sceneName);
-        scene.allowSceneActivation = false;
-
-        _loaderCanvas.SetActive(true);
-
-        do
-        {
-            //_progressBar.fillAmount = scene.progress;
-        }
-        while (scene.progress < 0.9f);
-
-        scene.allowSceneActivation = true;
-
+        SceneManager.LoadScene(sceneName);
         _loaderCanvas.SetActive(false);
-
     }
 }

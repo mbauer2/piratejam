@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DevScenes/LevelGym.unity
     guid: a6e2bdc49e9b0664199f711bbc871127
+  - enabled: 1
+    path: Assets/Scenes/DevScenes/Walk n Talk.unity
+    guid: c9617a587a63f3949af08faed52a4532
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

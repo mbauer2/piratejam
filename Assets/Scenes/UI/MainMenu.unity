@@ -444,6 +444,7 @@ MonoBehaviour:
   - Level 1
   - Level 2
   - LevelGym
+  - Walk n Talk
   _loaderCanvas: {fileID: 1624902002}
   _loaderGrid: {fileID: 162126410}
   _progressBar: {fileID: 0}
