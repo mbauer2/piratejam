@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenuCanvas;
 
+
+
     [SerializeField] private GameObject playerObject;
     private PlayerCharacter playerCharacter;
 
@@ -27,6 +29,7 @@ public class GameController : MonoBehaviour
         if (playerCharacter != null)
         {
             energyTracker.text = playerCharacter.GetEnergy().ToString();
+
         }
     }
 }

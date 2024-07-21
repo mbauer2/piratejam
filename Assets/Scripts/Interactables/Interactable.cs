@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    [SerializeField] private string prompt;
+    [SerializeField] private string conversation;
+    [SerializeField] private bool showConversation;
+    [SerializeField] private Collectible prize;
+
+    private bool active = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +22,35 @@ public class Interactable : MonoBehaviour
     {
         
     }
+
+    public string GetPrompt()
+    {
+        return prompt;
+    }
+
+    public string GetConversation()
+    {
+        return conversation;
+    }
+
+    public bool ShouldShowConversation()
+    {
+        return showConversation;
+    }
+
+    public Collectible ConsumePrize()
+    {
+        return prize;
+    }
+
+    public bool IsInteractableActive()
+    {
+        return active;
+    }
+
+    public void DeactivateInteractable()
+    {
+        active = false;
+    }
+
 }

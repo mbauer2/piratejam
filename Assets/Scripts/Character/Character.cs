@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
 
     [SerializeField] private string characterName;
     
+    protected Vector3 inputVelocity = Vector3.zero;
     protected Vector3 velocity = Vector3.zero;
     protected int energy = 0;
 
@@ -41,7 +42,19 @@ public class Character : MonoBehaviour
     {
         Collectible collectible = collectibleObject.gameObject.GetComponent<CollectibleObject>().GetCollectible();
 
-        bool success = false;
+        bool success = Collect(collectible);
+
+        if (success)
+        {
+            Destroy(collectibleObject);
+        }
+
+        return success;
+    }
+
+    public bool Collect( Collectible collectible )
+    {
+        bool success;
 
         if (collectible.GetCollectibleType() == Collectible.CollectibleType.Energy)
         {
@@ -52,12 +65,6 @@ public class Character : MonoBehaviour
         else
         {
             success = AddToInventory(collectible);
-        }
-        
-
-        if (success)
-        {
-            Destroy(collectibleObject);
         }
 
         return success;
