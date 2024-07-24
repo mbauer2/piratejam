@@ -259,10 +259,13 @@ MonoBehaviour:
   speed: 20
   dashMultiplier: 1.5
   jumpSpeed: 2
+  jumpAscentTime: 1
+  jumpHeldModifier: 0.5
   rotationSpeed: 90
   glideFallSpeed: -1
   fallSpeed: -10
   slamSpeed: -20
+  respawnTimer: 1
 --- !u!143 &5209735138792257317
 CharacterController:
   m_ObjectHideFlags: 0

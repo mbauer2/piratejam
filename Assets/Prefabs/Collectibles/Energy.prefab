@@ -122,6 +122,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectible:
     stackable: 1
-    collectibleType: 0
+    collectibleType: 1
     collectibleName: Energy
     amount: 10
