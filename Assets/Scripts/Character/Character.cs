@@ -9,7 +9,10 @@ public class Character : MonoBehaviour
         Stunned,
         Slowed,
         Hidden,
-        Cloaked
+        Cloaked,
+        Spotted,
+        Tracked,
+        InDanger
     }
 
     [SerializeField] private string characterName;
@@ -24,7 +27,8 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        inventory = new Dictionary<Collectible.CollectibleType, int>();
+        statusEffects = new Dictionary<StatusEffect, float>();
     }
 
     // Update is called once per frame
@@ -36,6 +40,19 @@ public class Character : MonoBehaviour
     public int GetEnergy()
     {
         return energy;
+    }
+
+    public bool Pay( Collectible collectible )
+    {
+        bool success = false;
+
+        if (collectible.GetCollectibleType() == Collectible.CollectibleType.Energy && energy >= collectible.GetAmount() )
+        {
+            energy -= collectible.GetAmount();
+
+            success = true;
+        }
+        return success;
     }
 
     public bool Collect(GameObject collectibleObject)
@@ -60,6 +77,10 @@ public class Character : MonoBehaviour
         {
             energy += collectible.GetAmount();
 
+            success = true;
+        }
+        else if ( collectible.GetCollectibleType() == Collectible.CollectibleType.None)
+        {
             success = true;
         }
         else

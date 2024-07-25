@@ -10,6 +10,7 @@ public class Collectible
 
     public enum CollectibleType
     {
+        None,
         Energy,
         Other
     }

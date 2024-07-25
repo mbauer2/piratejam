@@ -9,6 +9,8 @@ public class PlayerCharacter : Character
     [SerializeField] private float speed = 20;
     [SerializeField] private float dashMultiplier = 1.5f;
     [SerializeField] private float jumpSpeed = 2;
+    [SerializeField] private float jumpAscentTime = 1;
+    [SerializeField] private float jumpHeldModifier = 0.5f;
     [SerializeField] private float rotationSpeed = 90;
     [SerializeField] private float glideFallSpeed = -1;
     [SerializeField] private float fallSpeed = -10;
@@ -16,27 +18,31 @@ public class PlayerCharacter : Character
 
     private bool jumpPressed = false;
     private bool shouldGlide = false;
-    private bool speedUpActive = false;
+    private bool dashActive = false;
+    private bool slamActive = false;
 
     private float dashLength = 0.5f;
     private float dashTimeLeft = 0;
 
-    private List<GameObject> collidedObjects;
+    private float jumpAscentTimeLeft = 0;
+
+    [SerializeField] private float respawnTimer = 1;
+    private float respawnTimeLeft = 0;
+
     private GameObject interactableObject;
     private bool interactPressed = false;
 
     private CharacterController characterController;
 
-    //private Rigidbody rb;
 
     private void Awake()
     {
         playerControls = new OverworldInput();
-        playerControls.Player.Fire.performed += Interact;
+        playerControls.Player.Interact.performed += Interact;
         playerControls.Player.Jump.performed += Jump;
+        playerControls.Player.Jump.canceled += JumpReleased;
         playerControls.Player.SpeedUp.performed += SpeedUp;
-        collidedObjects = new List<GameObject>();
-        //rb = gameObject.GetComponent<Rigidbody>();
+        playerControls.Player.Fire.performed += Stun;
 
         characterController = GetComponent<CharacterController>();
     }
@@ -69,25 +75,46 @@ public class PlayerCharacter : Character
             if (dashTimeLeft < 0)
             {
                 dashTimeLeft = 0;
-                speedUpActive = false;
+                dashActive = false;
+            }
+        }
+
+        if ( jumpAscentTimeLeft > 0 )
+        {
+            jumpAscentTimeLeft -= Time.deltaTime;
+            if ( jumpAscentTimeLeft < 0 )
+            {
+                jumpAscentTimeLeft = 0;
+            }
+        }
+
+        if (respawnTimeLeft > 0)
+        {
+            respawnTimeLeft -= Time.deltaTime;
+            if (respawnTimeLeft < 0)
+            {
+                respawnTimeLeft = 0;
+                playerControls.Player.Enable();
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        //if ( !collidedObjects.Contains(collision.gameObject) )
-        //{
-        //    collidedObjects.Add(collision.gameObject);
-        //}
+
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        //if (collidedObjects.Contains(collision.gameObject))
-        //{
-        //    collidedObjects.Remove(collision.gameObject);
-        //}    
+ 
+    }
+
+    private void ClearFlags()
+    {
+        slamActive = false;
+        dashActive = false;
+        jumpPressed = false;
+        shouldGlide = false;
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -97,40 +124,62 @@ public class PlayerCharacter : Character
             if (characterController.isGrounded)
             {
                 jumpPressed = true;
+                jumpAscentTimeLeft = jumpAscentTime;
             }
             else
             {
-                if ( !speedUpActive )
+                if ( !slamActive )
                 {
                     shouldGlide = !shouldGlide;
+                    jumpPressed = false;
                 }
             }
         }
     }
 
+    private void JumpReleased(InputAction.CallbackContext context)
+    {
+        if ( jumpPressed )
+        {
+            jumpPressed = false;
+        }
+    }
+
     private void SpeedUp(InputAction.CallbackContext context)
     {
-        if (!speedUpActive)
+        if (characterController.isGrounded)
         {
-            speedUpActive = true;
-            jumpPressed = false;
-            shouldGlide = false;
-
-            if (characterController.isGrounded)
+            if (!dashActive)
             {
+                dashActive = true;
+                jumpPressed = false;
+                shouldGlide = false;
+
                 dashTimeLeft = dashLength;
             }
-            else
+        }
+        else
+        {
+            if (!slamActive)
             {
-                // height check for slam?
-
+                slamActive = true;
+                dashActive = false;
+                jumpPressed = false;
+                shouldGlide = false;
             }
         }
+
+    }
+
+    public void RespawnAt( Vector3 position )
+    {
+        playerControls.Player.Disable();
+        respawnTimeLeft = respawnTimer;
+        gameObject.transform.position = position;
     }
 
     private void FixedUpdate()
     {
-        //rb.velocity = velocity * speed * Time.deltaTime;
         if (inputVelocity.sqrMagnitude != 0)
         {
             gameObject.transform.rotation = Quaternion.LookRotation(inputVelocity.normalized * speed * Time.deltaTime, Vector3.up);
@@ -141,15 +190,13 @@ public class PlayerCharacter : Character
         if (characterController.isGrounded)
         {
             velocity = inputVelocity.normalized * speed * Time.deltaTime;
-            if (speedUpActive)
+            if (dashActive)
             {
                 velocity *= dashMultiplier;
             }
-            // turnVelocity
             if (jumpPressed)
             {
                 velocity.y = jumpSpeed;
-                jumpPressed = false;
             }
         }
         else
@@ -162,7 +209,7 @@ public class PlayerCharacter : Character
             velocity.y = 0;
         }
 
-        if ( wasInAir && speedUpActive )
+        if ( wasInAir && slamActive )
         {
             velocity.x = 0;
             velocity.z = 0;
@@ -173,9 +220,13 @@ public class PlayerCharacter : Character
         {
             currentFallSpeed = glideFallSpeed;
         }
-        else if ( wasInAir && speedUpActive )
+        else if (wasInAir && slamActive)
         {
             currentFallSpeed = slamSpeed;
+        }
+        else if (jumpPressed && jumpAscentTimeLeft > 0)
+        {
+              currentFallSpeed *= jumpHeldModifier;
         }
 
         velocity.y += currentFallSpeed * Time.deltaTime;
@@ -188,7 +239,7 @@ public class PlayerCharacter : Character
 
             if ( wasInAir )
             {
-                speedUpActive = false;
+                slamActive = false;
                 // Landed this frame
             }
         }
@@ -217,7 +268,7 @@ public class PlayerCharacter : Character
 
     private void OnTriggerExit(Collider other)
     {
-        if (interactableObject == other.gameObject.GetComponent<Interactable>() )
+        if (interactableObject == other.gameObject )
         {
             interactableObject = null;
             interactPressed = false;
@@ -232,9 +283,26 @@ public class PlayerCharacter : Character
             interactPressed = true;
             if (!interactable.ShouldShowConversation())
             {
+                bool paySuccess;
+                if (interactable.GetCost() != null)
+                {
+                    paySuccess = Pay(interactable.GetCost());
+                }
+                else
+                {
+                    paySuccess = true;
+                }
                 // Consume prize
-                Collect( interactable.ConsumePrize() );
-                interactable.DeactivateInteractable();
+                if (!paySuccess)
+                {
+                    interactPressed = false;
+                    return;
+                }
+                bool success = Collect( interactable.GetPrize() );
+                if (success )
+                {
+                    interactable.DeactivateInteractable();
+                }
             }
             else
             { 
@@ -244,19 +312,24 @@ public class PlayerCharacter : Character
         }
     }
 
-    private Interactable GetInteracbleObjectInRange()
+    public Interactable GetInteracbleObjectInRange()
     {
         return interactableObject.GetComponent<Interactable>();
     }
 
-    private bool ShouldShowPrompt()
+    public bool ShouldShowPrompt()
     {
         return interactableObject != null && !interactPressed;
     }
 
-    private bool ShouldShowConversation()
+    public bool ShouldShowConversation()
     {
         return false;
+    }
+
+    public void Stun(InputAction.CallbackContext context)
+    {
+
     }
 
 }

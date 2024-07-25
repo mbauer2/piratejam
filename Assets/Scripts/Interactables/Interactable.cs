@@ -7,6 +7,7 @@ public class Interactable : MonoBehaviour
     [SerializeField] private string prompt;
     [SerializeField] private string conversation;
     [SerializeField] private bool showConversation;
+    [SerializeField] private Collectible cost;
     [SerializeField] private Collectible prize;
 
     private bool active = true;
@@ -38,7 +39,12 @@ public class Interactable : MonoBehaviour
         return showConversation;
     }
 
-    public Collectible ConsumePrize()
+    public Collectible GetCost()
+    {
+        return cost;
+    }
+
+    public Collectible GetPrize()
     {
         return prize;
     }
