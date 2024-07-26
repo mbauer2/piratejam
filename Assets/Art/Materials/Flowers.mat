@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Flowers
+  m_Shader: {fileID: 4800000, guid: be891319084e9d147b09d89e80ce60e0, type: 3}
+  m_Parent: {fileID: 2100000, guid: 4ccf81fad73ef6a4cbc9d29888eb5763, type: 2}
+  m_ModifiedSerializedProperties: 16
+  m_ValidKeywords:
+  - _EMISSIVE_SIMPLE
+  - _IS_ANGELRING_OFF
+  - _IS_CLIPPING_OFF
+  - _IS_OUTLINE_CLIPPING_NO
+  - _OUTLINE_NML
+  - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  m_InvalidKeywords:
+  - _EMISSION
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    IgnoreProjection: False
+    RenderType: Opaque
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  - SRPDEFAULTUNLIT
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Emissive_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HighColor_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: f1b12147575b3b4439ab61cffa133fd0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _1st2nd_Shades_Feather: 0.0001
+    - _1st_ShadeColor_Feather: 0.0001
+    - _1st_ShadeColor_Step: 0.54
+    - _2nd_ShadeColor_Feather: 0.0001
+    - _2nd_ShadeColor_Step: 0
+    - _AutoRenderQueue: 1
+    - _BaseColor_Step: 0.54
+    - _BaseShade_Feather: 0.0001
+    - _CullMode: 2
+    - _Farthest_Distance: 100
+    - _HighColor_Power: 0.495
+    - _Is_BlendAddToHiColor: 1
+    - _Is_SpecularToHighColor: 0
+    - _Nearest_Distance: 0
+    - _Outline_Width: 0.72
+    - _Set_SystemShadowsToBase: 1
+    - _ShadeColor_Step: 0
+    - _TweakHighColorOnShadow: 0
+    - _Tweak_HighColorMaskLevel: -0.864
+    - _Tweak_SystemShadowsLevel: -0.256
+    - _Use_1stAs2nd: 1
+    - _Use_BaseAs1st: 1
+    m_Colors:
+    - _1st_ShadeColor: {r: 0.6146909, g: 0.5446778, b: 0.75471693, a: 0.5686275}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.45490196}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.45490196}
+    - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _HighColor: {r: 0.9433962, g: 0.88702977, b: 0.5206479, a: 0.6313726}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &8358006350501546603
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
