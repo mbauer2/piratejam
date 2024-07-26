@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GreenStuff_Toon
+  m_Name: Toon_wood
   m_Shader: {fileID: 4800000, guid: be891319084e9d147b09d89e80ce60e0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -513,15 +513,15 @@ Material:
     - _utsVersionY: 10
     - _utsVersionZ: 1
     m_Colors:
-    - _1st_ShadeColor: {r: 0.07058824, g: 0.20784315, b: 0.08627451, a: 1}
-    - _2nd_ShadeColor: {r: 0.023970563, g: 0.0754717, b: 0.031327866, a: 1}
+    - _1st_ShadeColor: {r: 0.122641504, g: 0.0599676, b: 0.048015304, a: 1}
+    - _2nd_ShadeColor: {r: 0.07450981, g: 0.023529412, b: 0.026717145, a: 1}
     - _AngelRingMaskColor: {r: 0, g: 1, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.09594157, g: 0.3962264, b: 0.11996434, a: 1}
+    - _BaseColor: {r: 0.3773585, g: 0.18750553, b: 0.1512994, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColorMaskColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.09594155, g: 0.39622638, b: 0.11996431, a: 1}
+    - _Color: {r: 0.37735847, g: 0.18750548, b: 0.15129936, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
