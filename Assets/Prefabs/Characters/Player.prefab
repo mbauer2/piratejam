@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7838084534463210458}
   - component: {fileID: 3835433472603163980}
   - component: {fileID: 4754721982701532901}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: buttlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 4496302994889599052}
   - component: {fileID: 5251846424389318761}
   - component: {fileID: 5209735138792257317}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,6 +265,13 @@ MonoBehaviour:
   glideFallSpeed: -1
   fallSpeed: -10
   slamSpeed: -20
+  stamRechargeRate: 20
+  baseStamina: 100
+  orbStamValue: 5
+  jumpStamCost: 30
+  glideStamCost: 2
+  dashStamCost: 30
+  slamStamCost: 30
   respawnTimer: 1
 --- !u!143 &5209735138792257317
 CharacterController:
@@ -304,7 +311,7 @@ GameObject:
   - component: {fileID: 8708935110984478374}
   - component: {fileID: 5400573214824810736}
   - component: {fileID: 3426028642473997487}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +418,7 @@ GameObject:
   - component: {fileID: 4698317473796713865}
   - component: {fileID: 4617503412217073635}
   - component: {fileID: 6124989497593114611}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wing (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,6 +525,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtFX
       objectReference: {fileID: 0}
+    - target: {fileID: 1169051080972801991, guid: 95700157a2e87604c9c8552dd742098e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4421301501827258352, guid: 95700157a2e87604c9c8552dd742098e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -616,9 +627,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8492300806681347378, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7855483040743439767, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7836109915214537875, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6539600820637181632, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4377140140577612734, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -3420019266473321476, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2064595354452663917, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -938983531534324846, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -389060815399261467, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -259972160606440404, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
       propertyPath: m_Name
       value: Firefly_Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147582051511559177, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579671374381230136, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4939975780763400703, guid: 31ec78066d7e95e4c97eed711a397c4a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

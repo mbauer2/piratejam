@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] protected GameObject detector;
+    protected PlayerDetector playerDetector;
+    protected bool isPursuing;
+
     // Start is called before the first frame update
     void Start()
     {
