@@ -16,6 +16,16 @@ public class PlayerCharacter : Character
     [SerializeField] private float fallSpeed = -10;
     [SerializeField] private float slamSpeed = -20;
 
+    [SerializeField] private float stamRechargeRate = 20;
+    [SerializeField] private float baseStamina = 100;
+    [SerializeField] private float orbStamValue = 5;
+    [SerializeField] private float jumpStamCost = 30;
+    [SerializeField] private float glideStamCost = 2;
+    [SerializeField] private float dashStamCost = 30;
+    [SerializeField] private float slamStamCost = 30;
+
+    private float currentStamina;
+
     private bool jumpPressed = false;
     private bool shouldGlide = false;
     private bool dashActive = false;
@@ -45,6 +55,8 @@ public class PlayerCharacter : Character
         playerControls.Player.Fire.performed += Stun;
 
         characterController = GetComponent<CharacterController>();
+
+        currentStamina = GetMaxStamina();
     }
 
     private void OnEnable()
@@ -97,6 +109,14 @@ public class PlayerCharacter : Character
                 playerControls.Player.Enable();
             }
         }
+
+        float currentMaxStam = GetMaxStamina();
+
+        if ( GetCurrentStamina() < currentMaxStam && !shouldGlide && jumpAscentTimeLeft <= 0 )
+        {
+            currentStamina = Mathf.Min( currentStamina + stamRechargeRate * Time.deltaTime, currentMaxStam );   
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -109,6 +129,11 @@ public class PlayerCharacter : Character
  
     }
 
+    public bool IsSlamming()
+    {
+        return slamActive;
+    }
+
     private void ClearFlags()
     {
         slamActive = false;
@@ -117,39 +142,58 @@ public class PlayerCharacter : Character
         shouldGlide = false;
     }
 
+    public float GetCurrentStamina()
+    {
+        return currentStamina;
+    }
+
+    public float GetMaxStamina()
+    {
+        return baseStamina + energy * orbStamValue;
+    }
+
+    private bool SpendStamina( float spendAmount )
+    {
+        bool success = false;
+        if ( currentStamina >= spendAmount )
+        {
+            success = true;
+            currentStamina -= spendAmount;
+        }
+
+        return success;
+    }
+
     private void Jump(InputAction.CallbackContext context)
     {
-        if ( !jumpPressed )
+        if ( !jumpPressed && !shouldGlide )
         {
-            if (characterController.isGrounded)
+            if (characterController.isGrounded && SpendStamina(jumpStamCost) )
             {
                 jumpPressed = true;
                 jumpAscentTimeLeft = jumpAscentTime;
             }
-            else
+            else if (!characterController.isGrounded && !slamActive && SpendStamina(glideStamCost))
             {
-                if ( !slamActive )
-                {
-                    shouldGlide = !shouldGlide;
-                    jumpPressed = false;
-                }
+                shouldGlide = true;
+                jumpPressed = false;
+
             }
         }
     }
 
     private void JumpReleased(InputAction.CallbackContext context)
     {
-        if ( jumpPressed )
-        {
-            jumpPressed = false;
-        }
+        jumpPressed = false;
+        shouldGlide = false;
+        jumpAscentTimeLeft = 0;
     }
 
     private void SpeedUp(InputAction.CallbackContext context)
     {
         if (characterController.isGrounded)
         {
-            if (!dashActive)
+            if (!dashActive && SpendStamina(dashStamCost) )
             {
                 dashActive = true;
                 jumpPressed = false;
@@ -160,7 +204,7 @@ public class PlayerCharacter : Character
         }
         else
         {
-            if (!slamActive)
+            if (!slamActive && SpendStamina(slamStamCost))
             {
                 slamActive = true;
                 dashActive = false;
@@ -218,7 +262,15 @@ public class PlayerCharacter : Character
         float currentFallSpeed = fallSpeed;
         if (shouldGlide)
         {
-            currentFallSpeed = glideFallSpeed;
+            if (SpendStamina(glideStamCost))
+            {
+                currentFallSpeed = glideFallSpeed;
+            }
+            else
+            {
+                shouldGlide = false;
+            }
+            
         }
         else if (wasInAir && slamActive)
         {
@@ -227,6 +279,13 @@ public class PlayerCharacter : Character
         else if (jumpPressed && jumpAscentTimeLeft > 0)
         {
               currentFallSpeed *= jumpHeldModifier;
+        }
+
+        if ( velocity.y * currentFallSpeed < 0 && velocity.y + currentFallSpeed * Time.deltaTime < 0 && jumpPressed )
+        {
+            /// switch to glide if jump still pressed
+            shouldGlide = true;
+            jumpPressed = false;
         }
 
         velocity.y += currentFallSpeed * Time.deltaTime;

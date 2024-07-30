@@ -12,7 +12,8 @@ public class Character : MonoBehaviour
         Cloaked,
         Spotted,
         Tracked,
-        InDanger
+        InDanger,
+        Stinky
     }
 
     [SerializeField] private string characterName;
