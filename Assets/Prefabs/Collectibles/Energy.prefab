@@ -182,6 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 100
   targetObject: {fileID: 1001587076873044653}
+  minDelay: 0
+  maxDelay: 3
 --- !u!1001 &751225233785922886
 PrefabInstance:
   m_ObjectHideFlags: 0
