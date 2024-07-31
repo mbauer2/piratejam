@@ -83,7 +83,7 @@ MonoBehaviour:
     stackable: 1
     collectibleType: 1
     collectibleName: Energy
-    amount: 10
+    amount: 1
 --- !u!108 &5907239148205113815
 Light:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI energyTracker;
     [SerializeField] private TextMeshProUGUI clock;
     [SerializeField] private Slider stamSlider;
+    [SerializeField] private Image stamBar;
 
     [SerializeField] private GameObject pauseMenuCanvas;
 
@@ -19,7 +20,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI promptText;
 
     [SerializeField] private GameObject conversationPane;
-    
+    [SerializeField] private TextMeshProUGUI convoText;
+
     [SerializeField] private GameObject playerObject;
     private PlayerCharacter playerCharacter;
 
@@ -49,7 +51,7 @@ public class GameController : MonoBehaviour
         if (playerCharacter != null)
         {
             energyTracker.text = "Orbs:" + playerCharacter.GetEnergy().ToString() + "\nStamina: ";
-            stamSlider.value = playerCharacter.GetCurrentStamina() / playerCharacter.GetMaxStamina();
+            stamBar.fillAmount = playerCharacter.GetCurrentStamina() / playerCharacter.GetMaxStamina();
             if (playerCharacter.ShouldShowPrompt())
             {
                 promptText.text = playerCharacter.GetInteracbleObjectInRange().GetPrompt();
