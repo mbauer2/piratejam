@@ -32,7 +32,7 @@ public class PlayerDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (processTimeLeft <= 0 && other.gameObject.GetComponent<PlayerCharacter>() != null)
+        if (processTimeLeft <= 0 && other.gameObject.GetComponent<PlayerCharacter>() != null && other.gameObject.GetComponent<PlayerCharacter>().IsAlive() )
         {
             processTimeLeft = processTime;
             PlayerDetected = true;

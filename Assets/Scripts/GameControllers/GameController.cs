@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI clock;
     [SerializeField] private Slider stamSlider;
     [SerializeField] private Image stamBar;
+    [SerializeField] private Image dedImage;
+
+    [SerializeField] private float currentFadeSpeed;
+    [SerializeField] private float fadeTimeLeft;
 
     [SerializeField] private GameObject pauseMenuCanvas;
 
@@ -70,14 +74,35 @@ public class GameController : MonoBehaviour
             {
                 conversationPane.SetActive(false);
             }
+
+            if ( fadeTimeLeft > 0)
+            {
+                fadeTimeLeft -= Time.deltaTime;
+                if ( fadeTimeLeft < 0 )
+                {
+                    fadeTimeLeft = 0;
+                }
+                dedImage.color = new Color( dedImage.color.r, dedImage.color.g, dedImage.color.b, 1 - (fadeTimeLeft / currentFadeSpeed));
+
+
+            }
         }
     }
 
-    public void SpawnPlayer()
+    public void SpawnPlayer( bool triggerFade = true )
     {
+        if ( triggerFade )
+        {
+            TriggerDeathFade(0.01f);
+        }
+        
         playerCharacter.RespawnAt(spawnLocation);
     }
 
+    public bool IsPlayerAlive()
+    {
+        return playerCharacter.IsAlive();
+    }
 
     public void SetSpawnLocation( Transform newLocation )
     {
@@ -88,5 +113,20 @@ public class GameController : MonoBehaviour
         return spawnLocation;
     }
 
+    public void TriggerDeathFade( float fadeSpeed )
+    {
+        fadeTimeLeft = fadeSpeed;
+        currentFadeSpeed = fadeSpeed;
+    }
+
+    public void StopFade()
+    {
+        SetDeathFade(0);
+    }
+
+    public void SetDeathFade( float fadeValue )
+    {
+        dedImage.color = new Color(dedImage.color.r, dedImage.color.g, dedImage.color.b, fadeValue);
+    }
 
 }
