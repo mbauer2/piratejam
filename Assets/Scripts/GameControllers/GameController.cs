@@ -61,6 +61,15 @@ public class GameController : MonoBehaviour
             {
                 interactPrompt.SetActive(false);
             }
+            if (playerCharacter.ShouldShowConversation())
+            {
+                convoText.text = playerCharacter.GetInteracbleObjectInRange().GetConversation();
+                conversationPane.SetActive(true);
+            }
+            else
+            {
+                conversationPane.SetActive(false);
+            }
         }
     }
 

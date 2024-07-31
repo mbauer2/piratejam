@@ -16,6 +16,9 @@ public class PlayerCharacter : Character
     [SerializeField] private float fallSpeed = -10;
     [SerializeField] private float slamSpeed = -20;
 
+    [SerializeField] private float stunTimer = 0.5f;
+    [SerializeField] private float stunTimeLeft = 0;
+
     [SerializeField] private float stamRechargeRate = 20;
     [SerializeField] private float baseStamina = 100;
     [SerializeField] private float orbStamValue = 5;
@@ -173,7 +176,7 @@ public class PlayerCharacter : Character
                 jumpPressed = true;
                 jumpAscentTimeLeft = jumpAscentTime;
             }
-            else if (!characterController.isGrounded && !slamActive && SpendStamina(glideStamCost))
+            else if (!characterController.isGrounded && !slamActive && CanGlide() && SpendStamina(glideStamCost) )
             {
                 shouldGlide = true;
                 jumpPressed = false;
@@ -193,7 +196,7 @@ public class PlayerCharacter : Character
     {
         if (characterController.isGrounded)
         {
-            if (!dashActive && SpendStamina(dashStamCost) )
+            if (!dashActive && CanDash() && SpendStamina(dashStamCost) )
             {
                 dashActive = true;
                 jumpPressed = false;
@@ -204,7 +207,7 @@ public class PlayerCharacter : Character
         }
         else
         {
-            if (!slamActive && SpendStamina(slamStamCost))
+            if (!slamActive && CanSlam() && SpendStamina(slamStamCost))
             {
                 slamActive = true;
                 dashActive = false;
@@ -281,7 +284,7 @@ public class PlayerCharacter : Character
               currentFallSpeed *= jumpHeldModifier;
         }
 
-        if ( velocity.y * currentFallSpeed < 0 && velocity.y + currentFallSpeed * Time.deltaTime < 0 && jumpPressed )
+        if ( velocity.y * currentFallSpeed < 0 && velocity.y + currentFallSpeed * Time.deltaTime < 0 && jumpPressed && CanGlide())
         {
             /// switch to glide if jump still pressed
             shouldGlide = true;
@@ -378,12 +381,12 @@ public class PlayerCharacter : Character
 
     public bool ShouldShowPrompt()
     {
-        return interactableObject != null && !interactPressed;
+        return interactableObject != null && !interactPressed && !interactableObject.GetComponent<Interactable>().ShouldShowConversation();
     }
 
     public bool ShouldShowConversation()
     {
-        return false;
+        return interactableObject != null && interactableObject.GetComponent<Interactable>().ShouldShowConversation();
     }
 
     public void Stun(InputAction.CallbackContext context)
@@ -391,4 +394,18 @@ public class PlayerCharacter : Character
 
     }
 
+    public bool CanGlide()
+    {
+        return HasItem(Collectible.CollectibleType.Glide);
+    }
+
+    public bool CanDash()
+    {
+        return HasItem(Collectible.CollectibleType.Dash);
+    }
+
+    public bool CanSlam()
+    {
+        return HasItem(Collectible.CollectibleType.Slam);
+    }
 }
