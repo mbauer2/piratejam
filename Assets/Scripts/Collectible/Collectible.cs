@@ -12,6 +12,9 @@ public class Collectible
     {
         None,
         Energy,
+        Glide,
+        Slam,
+        Dash,
         Other
     }
 

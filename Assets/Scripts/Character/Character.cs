@@ -22,14 +22,13 @@ public class Character : MonoBehaviour
     protected Vector3 velocity = Vector3.zero;
     protected int energy = 0;
 
-    private Dictionary<Collectible.CollectibleType, int> inventory;
-    private Dictionary<StatusEffect, float> statusEffects;
+    private Dictionary<Collectible.CollectibleType, int> inventory = new Dictionary<Collectible.CollectibleType, int>();
+    private Dictionary<StatusEffect, float> statusEffects = new Dictionary<StatusEffect, float>();
 
     // Start is called before the first frame update
     void Start()
     {
-        inventory = new Dictionary<Collectible.CollectibleType, int>();
-        statusEffects = new Dictionary<StatusEffect, float>();
+
     }
 
     // Update is called once per frame
@@ -160,6 +159,11 @@ public class Character : MonoBehaviour
         {
             statusEffects.Add(status, newValue);
         }
+    }
+
+    public bool HasItem( Collectible.CollectibleType cType )
+    {
+        return inventory.ContainsKey(cType);
     }
 
     public bool CheckStatusApplicable( StatusEffect status )
