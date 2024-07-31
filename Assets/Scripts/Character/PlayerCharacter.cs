@@ -47,6 +47,10 @@ public class PlayerCharacter : Character
 
     private CharacterController characterController;
 
+    [SerializeField] private Animator animator;
+
+
+    [SerializeField] private bool overrideAbilities = false;
 
     private void Awake()
     {
@@ -91,6 +95,7 @@ public class PlayerCharacter : Character
             {
                 dashTimeLeft = 0;
                 dashActive = false;
+                animator.SetBool("isSprinting", false);
             }
         }
 
@@ -176,11 +181,13 @@ public class PlayerCharacter : Character
             {
                 jumpPressed = true;
                 jumpAscentTimeLeft = jumpAscentTime;
+                animator.SetBool("isJumping", true);
             }
             else if (!characterController.isGrounded && !slamActive && CanGlide() && SpendStamina(glideStamCost) )
             {
                 shouldGlide = true;
                 jumpPressed = false;
+                animator.SetBool("isGliding", true);
 
             }
         }
@@ -204,6 +211,7 @@ public class PlayerCharacter : Character
                 shouldGlide = false;
 
                 dashTimeLeft = dashLength;
+                animator.SetBool("isSprinting", true);
             }
         }
         else
@@ -214,6 +222,7 @@ public class PlayerCharacter : Character
                 dashActive = false;
                 jumpPressed = false;
                 shouldGlide = false;
+                animator.SetBool("isSlamming", true);
             }
         }
 
@@ -231,7 +240,21 @@ public class PlayerCharacter : Character
     {
         if (inputVelocity.sqrMagnitude != 0)
         {
+            if (characterController.isGrounded)
+            {
+                if (!animator.GetBool("isSprinting"))
+                {
+                    animator.SetBool("isWalking", true);
+                }
+            }
+
             gameObject.transform.rotation = Quaternion.LookRotation(inputVelocity.normalized * speed * Time.deltaTime, Vector3.up);
+        }
+        else
+        {
+            animator.SetBool("isSprinting", false);
+            animator.SetBool("isWalking", false);
+
         }
 
         bool wasInAir = false;
@@ -291,6 +314,8 @@ public class PlayerCharacter : Character
             /// switch to glide if jump still pressed
             shouldGlide = true;
             jumpPressed = false;
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isGliding", true);
         }
 
         velocity.y += currentFallSpeed * Time.deltaTime;
@@ -301,10 +326,26 @@ public class PlayerCharacter : Character
             jumpPressed = false;
             shouldGlide = false;
 
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isGliding", false);
+
             if ( wasInAir )
             {
                 slamActive = false;
                 // Landed this frame
+            }
+            if (inputVelocity.sqrMagnitude != 0 )
+            {
+                if (dashActive)
+                {
+                    animator.SetBool("isSprinting", true);
+                    animator.SetBool("isWalking", false);
+                }
+                else
+                {
+                    animator.SetBool("isSprinting", false);
+                    animator.SetBool("isWalking", true);
+                }
             }
         }
 
@@ -398,17 +439,17 @@ public class PlayerCharacter : Character
 
     public bool CanGlide()
     {
-        return HasItem(Collectible.CollectibleType.Glide);
+        return overrideAbilities || HasItem(Collectible.CollectibleType.Glide);
     }
 
     public bool CanDash()
     {
-        return HasItem(Collectible.CollectibleType.Dash);
+        return overrideAbilities ||  HasItem(Collectible.CollectibleType.Dash);
     }
 
     public bool CanSlam()
     {
-        return HasItem(Collectible.CollectibleType.Slam);
+        return overrideAbilities || HasItem(Collectible.CollectibleType.Slam);
     }
 
     public bool IsAlive()

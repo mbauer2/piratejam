@@ -13,6 +13,9 @@ public class PatrolBird : Enemy
     [SerializeField] float pursuitTimeLeft;
     [SerializeField] float pursuitTime;
 
+    [SerializeField] float pursuitCooldown = 3;
+    private float pursuitCooldownLeft;
+
     [SerializeField] float fadeDistanceThreshold = 7f;
     [SerializeField] float deathDistance = 2f;
 
@@ -41,7 +44,7 @@ public class PatrolBird : Enemy
             detector.transform.position = hit.point;
         }
 
-        if ( playerDetector.PlayerDetected && !isPursuing && !isReturning )
+        if ( playerDetector.PlayerDetected && !isPursuing && !isReturning && pursuitCooldownLeft <= 0)
         {
             StartPursuit();
         }
@@ -89,6 +92,16 @@ public class PatrolBird : Enemy
                 transform.rotation = lastPatrolAngle;
                 patrolSpline.Play();
                 isReturning = false;
+                pursuitCooldownLeft = pursuitCooldown;
+            }
+        }
+
+        if ( pursuitCooldownLeft > 0 )
+        {
+            pursuitCooldownLeft -= Time.deltaTime;
+            if (pursuitCooldownLeft < 0)
+            {
+                pursuitCooldownLeft = 0;
             }
         }
     }
@@ -119,7 +132,6 @@ public class PatrolBird : Enemy
         isPursuing = false;
         isReturning = true;
         pursuitTarget = null;
-        GameController.Instance.StopFade();
     }
 
 }

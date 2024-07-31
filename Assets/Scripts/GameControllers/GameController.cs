@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
     {
         if (playerCharacter != null)
         {
-            energyTracker.text = "Orbs:" + playerCharacter.GetEnergy().ToString() + "\nStamina: ";
+            energyTracker.text = "Stars:" + playerCharacter.GetEnergy().ToString() + "\nStamina: ";
             stamBar.fillAmount = playerCharacter.GetCurrentStamina() / playerCharacter.GetMaxStamina();
             if (playerCharacter.ShouldShowPrompt())
             {

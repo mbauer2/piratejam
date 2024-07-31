@@ -274,6 +274,8 @@ MonoBehaviour:
   dashStamCost: 25
   slamStamCost: 25
   respawnTimer: 1
+  animator: {fileID: 2454685239102022219}
+  overrideAbilities: 0
 --- !u!143 &5209735138792257317
 CharacterController:
   m_ObjectHideFlags: 0
@@ -614,7 +616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea6833c097b72db468c5619ce309dd3a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ea6833c097b72db468c5619ce309dd3a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -668,6 +670,11 @@ PrefabInstance:
       addedObject: {fileID: 2977194825594247677}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea6833c097b72db468c5619ce309dd3a, type: 3}
+--- !u!95 &2454685239102022219 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: ea6833c097b72db468c5619ce309dd3a, type: 3}
+  m_PrefabInstance: {fileID: 8321067241803259866}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &3772246769502214162 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 5126196860764669896, guid: ea6833c097b72db468c5619ce309dd3a, type: 3}
