@@ -13,6 +13,9 @@ public class PatrolBird : Enemy
     [SerializeField] float pursuitTimeLeft;
     [SerializeField] float pursuitTime;
 
+    [SerializeField] float fadeDistanceThreshold = 7f;
+    [SerializeField] float deathDistance = 2f;
+
     private GameObject pursuitTarget;
 
     private Vector3 lastPatrolPoint;
@@ -45,6 +48,19 @@ public class PatrolBird : Enemy
 
         if (isPursuing)
         {
+            float distance = Vector3.Distance(transform.position, pursuitTarget.transform.position);
+            if ( distance < fadeDistanceThreshold && distance > deathDistance )
+            {
+                GameController.Instance.SetDeathFade( 1 - (distance / ( fadeDistanceThreshold - deathDistance ) ) );
+                
+            }
+            else if ( distance <= deathDistance )
+            {
+                ReturnToPatrol();
+                GameController.Instance.SpawnPlayer();
+                return;
+            }
+
             RaycastHit pursuitHit;
             Vector3 direction = pursuitTarget.transform.position - transform.position;
             LayerMask enemyLayer = 1 >> 7;
@@ -52,7 +68,7 @@ public class PatrolBird : Enemy
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(transform.position, direction, out pursuitHit, Mathf.Infinity, layerMask))
             {
-                if (pursuitHit.transform.gameObject.layer != LayerMask.NameToLayer("Player"))
+                if (pursuitHit.transform.gameObject.layer != LayerMask.NameToLayer("Player") && GameController.Instance.IsPlayerAlive() )
                 {
                     ReturnToPatrol();
                 }
@@ -72,6 +88,7 @@ public class PatrolBird : Enemy
                 transform.position = lastPatrolPoint;
                 transform.rotation = lastPatrolAngle;
                 patrolSpline.Play();
+                isReturning = false;
             }
         }
     }
@@ -102,6 +119,7 @@ public class PatrolBird : Enemy
         isPursuing = false;
         isReturning = true;
         pursuitTarget = null;
+        GameController.Instance.StopFade();
     }
 
 }
