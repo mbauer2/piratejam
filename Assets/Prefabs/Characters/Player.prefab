@@ -125,7 +125,7 @@ GameObject:
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -257,20 +257,22 @@ MonoBehaviour:
   characterName: Jerry
   speed: 20
   dashMultiplier: 1.5
-  jumpSpeed: 2
+  jumpSpeed: 1.7
   jumpAscentTime: 1
   jumpHeldModifier: 0.5
   rotationSpeed: 90
-  glideFallSpeed: -1
-  fallSpeed: -10
+  glideFallSpeed: -0.35
+  fallSpeed: -12
   slamSpeed: -20
-  stamRechargeRate: 20
+  stunTimer: 0.5
+  stunTimeLeft: 0
+  stamRechargeRate: 25
   baseStamina: 100
   orbStamValue: 5
-  jumpStamCost: 30
+  jumpStamCost: 15
   glideStamCost: 2
-  dashStamCost: 30
-  slamStamCost: 30
+  dashStamCost: 25
+  slamStamCost: 25
   respawnTimer: 1
 --- !u!143 &5209735138792257317
 CharacterController:
