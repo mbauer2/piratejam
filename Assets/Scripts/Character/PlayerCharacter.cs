@@ -110,6 +110,7 @@ public class PlayerCharacter : Character
             {
                 respawnTimeLeft = 0;
                 playerControls.Player.Enable();
+                GameController.Instance.StopFade();
             }
         }
 
@@ -137,7 +138,7 @@ public class PlayerCharacter : Character
         return slamActive;
     }
 
-    private void ClearFlags()
+    public void ClearFlags()
     {
         slamActive = false;
         dashActive = false;
@@ -223,6 +224,7 @@ public class PlayerCharacter : Character
         playerControls.Player.Disable();
         respawnTimeLeft = respawnTimer;
         gameObject.transform.position = position;
+        ClearFlags();
     }
 
     private void FixedUpdate()
@@ -407,5 +409,10 @@ public class PlayerCharacter : Character
     public bool CanSlam()
     {
         return HasItem(Collectible.CollectibleType.Slam);
+    }
+
+    public bool IsAlive()
+    {
+        return respawnTimeLeft <= 0;
     }
 }
