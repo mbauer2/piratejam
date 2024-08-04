@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PalmLeaf_01
       objectReference: {fileID: 0}
+    - target: {fileID: 2442750396644333557, guid: 80b314b59c3098a449f11818ded57d20, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ad3204187327b344a9251daae30f3dd7, type: 2}
     - target: {fileID: 8272017266518922424, guid: 80b314b59c3098a449f11818ded57d20, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -59,7 +63,7 @@ PrefabInstance:
     - target: {fileID: 8598478529975338514, guid: 80b314b59c3098a449f11818ded57d20, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: eb26fd67373c3374fad64b779cbee6a5, type: 2}
+      objectReference: {fileID: 2100000, guid: ad3204187327b344a9251daae30f3dd7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
